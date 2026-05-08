@@ -150,7 +150,7 @@ Finally, the `pop_head()` method removes the first stop on the route nad returns
             self.tail = None
         return payload
 ```
-## Logistics Engine
+### Logistics Engine
 
 The logistics engine is the main code that defines the simulation. It contains 4 methods, each covers a different process in the system.
 
@@ -203,3 +203,36 @@ The following method is `load_truck()`. This method pulls from both standard and
                     self.standard_belt.enqueue(next_package)
                 break  # Truck is full, stop loading
 ```
+
+Finally, the Delivery method named `dispatch_and_simulate()` is resposible for simulating the delivery process. It will update the routes accordingly and account for specific events.
+
+```python
+    def dispatch_and_simulate(self):
+        print("\n--- INITIATING DELIVERY ROUTE ---")
+        while not self.active_truck.is_empty():
+            truck_package = self.active_truck.pop()
+            route_package = self.active_route.pop_head()
+            if truck_package is None or route_package is None:
+                break
+            # Random event generation
+            chance = random.random()
+            # Engine failure
+            if chance < 0.1:
+                print(f"\n!!! ENGINE FAILURE during delivery of {truck_package.tracking_id} !!!"
+                self.returned_packages.append(truck_package)
+                # Transfer remaining cargo
+                self.transfer_to_rescue_truck()
+            # Delivery cancellation
+            elif chance < 0.2:
+                print(f"\nTelemetry Alert: Customer canceled order.")
+                print(f"Canceled delivery: {truck_package.tracking_id}")
+                self.returned_packages.append(truck_package)
+            # Successful delivery
+            else:
+                print(f"Delivered: {truck_package.generate_shipping_label()}")
+        print("\nRoute complete.")
+```
+
+## Challenges
+
+The main challenge throughout the project was with the final class. Unlike the previous classes, this class mainly serves the function of running code more than storing data; it uses the other classes as objects. For example, the `load_truck()` method requires collaberation between two `IntakeQueue` objects, A `CargoStack` object, a `DeliveryRoute` object, and all of the nodes and packages those objects work with. Working around the chaos was difficult.
