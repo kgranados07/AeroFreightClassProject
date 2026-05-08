@@ -85,7 +85,7 @@ The delivery route class defines the route taken to deliver the packages. This c
 
 ### `RouteNode()`
 
-    Delivery routes uses its own specialized nodes to track individual stops. Each node is initialized with a payload linking to a package, a pointer tracking the next node, and one pointing to the previous.
+Delivery routes uses its own specialized nodes to track individual stops. Each node is initialized with a payload linking to a package, a pointer tracking the next node, and one pointing to the previous.
 
 ```python
 class RouteNode:
@@ -95,4 +95,24 @@ class RouteNode:
         self.prev = None  
 ```
 
-The first method of the delivery route 
+The first method of the delivery route initializes the head pointer and the tail pointer
+
+```python
+class DeliveryRoute:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+```
+
+The next method is `add_stop_to_front()`, which adds a new node based on a provided package to the front of the delivery route. It creates a new RouteNode and then adds it into the linked list.
+
+```python
+    def add_stop_to_front(self, package: Package):
+        new_node = RouteNode(package)
+        if not self.head:
+            self.head = new_node
+        
+        new_node.next = self.head
+        self.head.prev = new_node
+        self.head = new_node
+```
