@@ -72,7 +72,7 @@ class CargoStack:
 
     def push(self, package: Package) -> bool:
         """Return True if loaded, False if adding this package exceeds max_weight."""
-        if slef.current_weight + package.weight > self.max_weight:
+        if self.current_weight + package.weight > self.max_weight:
             return False  # Cannot load this package, would exceed weight limit
         
         self.cargo_bay.append(package)
