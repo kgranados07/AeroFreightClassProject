@@ -78,3 +78,21 @@ The final method in this class is `is_empty()`, which returns a boolean value de
     def is_empty(self) -> bool:
         return len(self.cargo_bay) == 0
 ```
+
+## Delivery Route
+
+The delivery route class defines the route taken to deliver the packages. This class would need to travel back and forth between nodes, so a doubly linked list structure would work great.
+
+### `RouteNode()`
+
+    Delivery routes uses its own specialized nodes to track individual stops. Each node is initialized with a payload linking to a package, a pointer tracking the next node, and one pointing to the previous.
+
+```python
+class RouteNode:
+    def __init__(self, package: Package):
+        self.payload = package
+        self.next = None
+        self.prev = None  
+```
+
+The first method of the delivery route 
