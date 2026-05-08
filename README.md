@@ -1,15 +1,15 @@
-# Final Project: AeroFreight Back-end
+# Final Project: AeroFreight Backend
 
-## Kevin Granados, Charles Levy, Zachary Smith
+### Creators: Kevin Granados, Charles Levy, Zachary Smith
 
 
-# Description
+## Description
 
 We were tasked to create an autonomous logistics simulator for the back-end for AeroFreight. This backend implements a system for tracking delivery routes, two different types of trucks and different loading belts, while also simulating the environment with random events that could impact delivery. The simulation is split into 3 phases, those being Intake, Loading, and Delivery. Intake involves the arrival and processing of packages on conveyor belts. Loading has the simulation load the containers inside. Delivery navigates through a delivery route to deliver the packages
 
-# Classes
+## Classes
 
-## Intake Queue
+### Intake Queue
 
 The intake queue is meant to represent the transport belts that carry packages. Since belts function similarly to lines, a queue structure would fit best as it has a FIFO mentality. The `__init__()` method only contains the initiation of a list named `items`.
 
@@ -40,7 +40,7 @@ The last method is `is_empty()`, which checks whether or not `self.items` is emp
         return len(self.items) == 0
 ```
 
-## Cargo Stack
+### Cargo Stack
 
 The cargo stack class represents the trucks that would be used for the simulation. The basic structure is a stack, with the packages representing the nodes. The class starts with the `__init__()` method that initiates a list representing the cargo bay, the maximum weight, and current weight.
 
@@ -79,11 +79,11 @@ The final method in this class is `is_empty()`, which returns a boolean value de
         return len(self.cargo_bay) == 0
 ```
 
-## Delivery Route
+### Delivery Route
 
 The delivery route class defines the route taken to deliver the packages. This class would need to travel back and forth between nodes, so a doubly linked list structure would work great.
 
-### `RouteNode()`
+#### `RouteNode()`
 
 Delivery routes uses its own specialized nodes to track individual stops. Each node is initialized with a payload linking to a package, a pointer tracking the next node, and one pointing to the previous.
 
@@ -150,3 +150,4 @@ Finally, the `pop_head()` method removes the first stop on the route nad returns
             self.tail = None
         return payload
 ```
+
