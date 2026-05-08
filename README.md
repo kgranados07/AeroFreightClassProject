@@ -116,3 +116,5 @@ The next method is `add_stop_to_front()`, which adds a new node based on a provi
         self.head.prev = new_node
         self.head = new_node
 ```
+
+The third method is `cancel_stop()`, which is meant to be a telemetry event that could trigger. the method uses a tracking ID
