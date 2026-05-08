@@ -165,4 +165,41 @@ class LogisticsEngine:
         self.active_route = DeliveryRoute()
         self.returned_packages = []
 ```
-The next 
+The next method, `receive_packages()`, takes a list of packages anditerates through them to place them in corresponding express or standard belts.
+
+```python
+    def receive_packages(self, packages: list):
+        for p in packages:
+            if isinstance(p, ExpressPackage):
+                self.express_belt.enqueue(p)
+            else:
+                self.standard_belt.enqueue(p)
+```
+The following method is `load_truck()`. This method pulls from both standard and express belts and organizes them on the active truck, starting with the express belt first. Meanwhile, the delivery route is being built simultaniously in accordance to the truck.
+
+```python
+    def load_truck(self):
+        """
+        STUDENT TASK: 
+        1. Always pull from express_belt first. If empty, pull from standard_belt.
+        2. Push to CargoStack until full.
+        3. As you push to the stack, simultaneously build the DeliveryRoute Linked List.
+        """
+        while not self.express_belt.is_empty() or not self.standard_belt.is_empty():
+            if not self.express_belt.is_empty():
+                next_package = self.express_belt.dequeue()
+            elif not self.standard_belt.is_empty():
+                next_package = self.standard_belt.dequeue()
+            else:
+                break  # No more to load
+
+            if self.active_truck.push(next_package):
+                self.active_route.add_stop_to_front(next_package)
+            else:
+                # Can't load package, put it on the appropriate belt
+                if isinstance(next_package, ExpressPackage):
+                    self.express_belt.enqueue(next_package)
+                else:
+                    self.standard_belt.enqueue(next_package)
+                break  # Truck is full, stop loading
+```
