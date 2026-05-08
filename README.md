@@ -150,4 +150,19 @@ Finally, the `pop_head()` method removes the first stop on the route nad returns
             self.tail = None
         return payload
 ```
+## Logistics Engine
 
+The logistics engine is the main code that defines the simulation. It contains 4 methods, each covers a different process in the system.
+
+The first method is the `__init__()` method, and this initializes an express and standard belt, an active truck, an active route, and a list of returned packages.
+
+```python
+class LogisticsEngine:
+    def __init__(self):
+        self.standard_belt = IntakeQueue()
+        self.express_belt = IntakeQueue()
+        self.active_truck = CargoStack(max_weight_capacity=100.0)
+        self.active_route = DeliveryRoute()
+        self.returned_packages = []
+```
+The next 
