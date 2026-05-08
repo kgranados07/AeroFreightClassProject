@@ -117,4 +117,36 @@ The next method is `add_stop_to_front()`, which adds a new node based on a provi
         self.head = new_node
 ```
 
-The third method is `cancel_stop()`, which is meant to be a telemetry event that could trigger. the method uses a tracking ID
+The third method is `cancel_stop()`, which is meant to be a telemetry event that could trigger. the method uses a tracking ID to search the route, and once it finds a package with a matching ID, it removes it from the list.
+
+```python
+    def cancel_stop(self, tracking_id: str) -> bool:
+        current = self.head
+        while current:
+            if current.payload.tracking_id == tracking_id:
+                if current.prev:
+                    current.prev.next = current.next
+                else: self.head = current.next
+
+                if current.next:
+                    current.next.prev = current.prev
+                else: self.tail = current.prev
+                return True
+            current = current.next
+        return False    
+```
+
+Finally, the `pop_head()` method removes the first stop on the route nad returns the package.
+
+```python
+    def pop_head(self) -> Package:
+        if not self.head:
+            return None
+        payload = self.head.payload
+        self.head = self.head.next
+        if self.head:
+            self.head.prev = None
+        else:
+            self.tail = None
+        return payload
+```
